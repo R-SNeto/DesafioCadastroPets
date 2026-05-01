@@ -1,0 +1,29 @@
+package entities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Form {
+
+    private List<String> questionList = new ArrayList<>();
+
+    public void addQuestion(String question){
+        if (!questionList.contains(question)) {
+            questionList.add(question);
+        }
+    }
+
+    public void removeQuestion(String question){
+        questionList.remove(question);
+    }
+
+    public String getQuestion(int i) {
+        return questionList.get(i);
+    }
+
+    public int getQuestionListSize(){
+        return questionList.size();
+    }
+
+
+}

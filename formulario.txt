@@ -1,0 +1,7 @@
+1 - What's the pet name?
+2 - What's the pet type (Dog/Cat)?
+3 - What's the pet gender?
+4 - What's the address where he was found?
+5 - What's the pet age?
+6 - What's pet weight?
+7 - What's pet race?
