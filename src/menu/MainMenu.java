@@ -42,7 +42,7 @@ public class MainMenu {
                         registerNewPet(scanner);
                         break;
                     case 2:
-                        //changePetData(scanner);
+                        changePetData(scanner);
                         break;
                     case 3:
                         //deletePetData(scanner);
@@ -58,11 +58,13 @@ public class MainMenu {
                         activeSystem = false;
                         break;
                     default:
-
+                        throw new IllegalArgumentException("Insert a valid option");
                 }
             }
             catch (NumberFormatException e){
                 System.out.println("\nError: insert a number\n");
+            } catch (RuntimeException e){
+                System.out.println("\nError: " + e.getMessage() + "\n");
             }
         }
     }
@@ -132,17 +134,22 @@ public class MainMenu {
 
                 Address local = new Address(state, city, neighborhood);
 
-                Pet pet = new Pet(name, PetType.valueOf(type), Gender.valueOf(gender),
-                        local, age, weight, race);
+                ps.addPetList(new Pet(name, PetType.valueOf(type),
+                        Gender.valueOf(gender), local, age, weight,
+                        race));
 
                 System.out.println("\nPET REGISTERED\n");
                 activeSystem = false;
 
             } catch (NumberFormatException e) {
                 System.out.println("Error: must be a number");
-            } catch (IllegalArgumentException e){
+            } catch (RuntimeException e){
                 System.out.println("Error: " + e.getMessage());
             }
         }
+    }
+
+    public void changePetData(Scanner scanner){
+
     }
 }

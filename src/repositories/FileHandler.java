@@ -13,8 +13,8 @@ public class FileHandler {
                     "2 - What's the pet type (Dog/Cat)?",
                     "3 - What's the pet gender?",
                     "4 - What's the address where he was found?",
-                    "5 - What's the pet age?",
-                    "6 - What's pet weight?",
+                    "5 - What's the pet age (years)?",
+                    "6 - What's pet weight (kg)?",
                     "7 - What's pet race?"};
 
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {

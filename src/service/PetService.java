@@ -10,11 +10,15 @@ public class PetService {
     List<Pet> petList = new ArrayList<>();
 
     public void addPetList(Pet pet){
-        petList.add(pet);
+        if(pet != null) {
+            petList.add(pet);
+        }else{
+            throw new RuntimeException("The system doesn't accept empty answers");
+        }
     }
 
-    public void removePetList(Pet pet){
-        petList.remove(pet);
+    public void removePetList(String name){
+        petList.remove(name);
     }
 
     public boolean hasSurname(String name){
