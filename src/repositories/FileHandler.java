@@ -3,8 +3,11 @@ package repositories;
 import entities.Form;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class FileHandler {
+    File folder = new File("PetData");
     File file = new File("formulario.txt");
 
     public void writeFormFile(){
@@ -47,5 +50,22 @@ public class FileHandler {
         }
     }
 
+    public void createPetDataFolder(){
+        folder.mkdir();
+    }
+
+    public void writePetDataFile(){
+        if(!folder.exists()){
+            createPetDataFolder();
+        }
+
+        LocalDateTime creationDate = LocalDateTime.now()
+                .atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+
+
+
+
+    }
 
 }

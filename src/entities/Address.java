@@ -37,4 +37,13 @@ public class Address {
     public void setNeighborhood(String neighborhood) {
         this.neighborhood = neighborhood;
     }
+
+    public String toString(StringBuilder sb) {
+        sb.append("Address where the pet was found: ").append("\n");
+        sb.append("I) State: ").append(getState()).append("\n");
+        sb.append("II) City: ").append(getCity()).append("\n");
+        sb.append("III Neighborhood: ").append(getNeighborhood()).append("\n");
+
+        return sb.toString();
+    }
 }
