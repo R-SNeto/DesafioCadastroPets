@@ -67,13 +67,13 @@ public class PetService {
             char c = word.charAt(i);
             int ascii = (int) c;
 
-            if ((ascii >= 33 && ascii <= 47) || (ascii >= 58 && ascii <= 64) ||
-                    (ascii >= 91 && ascii <= 96) || (ascii >= 123 && ascii <= 127) ||
-                    ascii == 145 || ascii == 146 || (ascii >= 155 && ascii <= 159) ||
-                    (ascii >= 166 && ascii <= 180) || (ascii >= 184 && ascii <= 197) ||
-                    (ascii >= 200 && ascii <= 209) || (ascii >= 217 && ascii <= 221) ||
-                    ascii == 223 || ascii == 225 || (ascii >= 230 && ascii <= 232) ||
-                    ascii >= 236){
+            if ((ascii >= 33 && ascii <= 47) || (ascii >= 58 && ascii <= 64)
+                    || (ascii >= 91 && ascii <= 96) || (ascii >= 123 && ascii <= 127)
+                    || ascii == 145 || ascii == 146 || (ascii >= 155 && ascii <= 159)
+                    || (ascii >= 166 && ascii <= 180) || (ascii >= 184 && ascii <= 197)
+                    || (ascii >= 200 && ascii <= 209) || (ascii >= 217 && ascii <= 221)
+                    || ascii == 223 || ascii == 225 || (ascii >= 230 && ascii <= 232)
+                    || ascii >= 236){
 
                 return true;
             }

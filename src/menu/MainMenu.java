@@ -181,7 +181,8 @@ public class MainMenu {
                         race);
 
                 ps.addPetList(pet);
-                System.out.println(pet);
+                fh.writePetDataFile(pet);
+
                 System.out.println("\nPET REGISTERED\n");
                 activeSystem = false;
 

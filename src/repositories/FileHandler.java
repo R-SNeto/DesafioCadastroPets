@@ -1,10 +1,13 @@
 package repositories;
 
 import entities.Form;
+import entities.Pet;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 public class FileHandler {
     File folder = new File("PetData");
@@ -54,16 +57,39 @@ public class FileHandler {
         folder.mkdir();
     }
 
-    public void writePetDataFile(){
+    public void writePetDataFile(Pet pet){
         if(!folder.exists()){
             createPetDataFolder();
         }
-
         LocalDateTime creationDate = LocalDateTime.now()
                 .atZone(ZoneId.systemDefault()).toLocalDateTime();
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter tf = DateTimeFormatter.ofPattern("HHmm");
+
+        String[] cutName = pet.getName().toUpperCase().split("\\s+");
+        StringBuilder formattedPetName = new StringBuilder();
+
+        for (String p: cutName){
+            formattedPetName.append(p);
+        }
 
 
+        String fileName = creationDate.format(df)
+                + "T"
+                + creationDate.format(tf )+ "-"
+                + formattedPetName + ".txt";
 
+        System.out.println(fileName);
+
+        File fileInDirectory = new File(folder, fileName);
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileInDirectory))){
+            bw.write(String.valueOf(pet));
+            bw.newLine();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }
