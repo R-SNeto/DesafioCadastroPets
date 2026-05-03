@@ -15,14 +15,14 @@ public class MainMenu {
     static Form questions = new Form();
     static PetService ps = new PetService();
 
-    public static final String NAO_INFORMADO = "NÃO INFORMADO";
+    public static final String NOT_INFORMED = "NOT INFORMED";
 
-    public void start(Scanner scanner){
+    public void start(Scanner scanner) {
         fh.readFormFile(questions);
         menu(scanner);
     }
 
-    public void menu(Scanner scanner){
+    public void menu(Scanner scanner) {
         boolean activeSystem = true;
 
         while (activeSystem) {
@@ -62,10 +62,9 @@ public class MainMenu {
                     default:
                         throw new IllegalArgumentException("Insert a valid option");
                 }
-            }
-            catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("\nError: insert a number\n");
-            } catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 System.out.println("\nError: " + e.getMessage() + "\n");
             }
         }
@@ -87,8 +86,8 @@ public class MainMenu {
                 String state = "";
                 String city = "";
                 String neighborhood = "";
-                int age = 0;
-                double weight = 0.0;
+                String age = "";
+                String weight = "";
                 String race = "";
 
                 for (int i = 0; i < questions.getQuestionListSize(); i++) {
@@ -114,47 +113,62 @@ public class MainMenu {
                     } else if (ask.contains("address")) {
                         System.out.print("I) State: ");
                         state = scanner.nextLine();
-                        if (state.equals(" ")) state = NAO_INFORMADO;
+                        if (state.isBlank()) state = NOT_INFORMED;
                         System.out.print("II) City: ");
                         city = scanner.nextLine();
-                        if (city.equals(" ")) state = NAO_INFORMADO;
+                        if (city.isBlank()) city = NOT_INFORMED;
                         System.out.print("III) Neighborhood: ");
                         neighborhood = scanner.nextLine();
-                        if (neighborhood.equals(" ")) state = NAO_INFORMADO;
+                        if (neighborhood.isBlank()) neighborhood = NOT_INFORMED;
                         System.out.println();
                     } else {
                         String answer = scanner.nextLine();
-                        if (answer.isEmpty()) answer = NAO_INFORMADO;
 
-                        if (ask.contains("name")){
-                            if(ps.validateName(answer)){
-                                name = answer;
-                            }else{
-                                throw new IllegalArgumentException("must have a surname or not be a especial character");
+                        if (ask.contains("name")) {
+                            if (answer.isBlank()){
+                                name = NOT_INFORMED;
+                            }else {
+                                if (ps.validateName(answer)) {
+                                    name = answer;
+                                } else {
+                                    throw new IllegalArgumentException("must have a surname or not be a especial character");
+                                }
                             }
                         }
                         else if (ask.contains("age")) {
-                            int fAge = Integer.parseInt(answer);
-                            if(ps.isCorrectAge(fAge)) {
-                                age = fAge;
-                            } else{
-                                throw new IllegalArgumentException("must be a valid age");
+                            if (answer.isBlank()){
+                                age = NOT_INFORMED;
+                            }else {
+                                int fAge = Integer.parseInt(answer);
+                                if (ps.isCorrectAge(fAge)) {
+                                    age = String.valueOf(fAge);
+                                } else {
+                                    throw new IllegalArgumentException("must be a valid age");
+                                }
                             }
 
                         }
                         else if (ask.contains("weight")) {
-                            double fWeight = Double.parseDouble(answer);
-                            if(ps.isCorrectWeight(fWeight)) {
-                                weight = fWeight;
-                            } else{
-                                throw new IllegalArgumentException("must be a valid weight");
+                            if (answer.isBlank()){
+                                weight = NOT_INFORMED;
+                            }else {
+                                double fWeight = Double.parseDouble(answer);
+                                if (ps.isCorrectWeight(fWeight)) {
+                                    weight = String.valueOf(fWeight);
+                                } else {
+                                    throw new IllegalArgumentException("must be a valid weight");
+                                }
                             }
                         }
                         else if (ask.contains("race")) {
-                            if(ps.validateRace(answer)) {
-                                race = answer;
+                            if (answer.isBlank()) {
+                                race = NOT_INFORMED;
                             } else {
-                                throw new IllegalArgumentException("must be a valid race");
+                                if (ps.validateRace(answer)) {
+                                    race = answer;
+                                } else {
+                                    throw new IllegalArgumentException("must be a valid race");
+                                }
                             }
                         }
                     }
@@ -167,18 +181,18 @@ public class MainMenu {
                         race);
 
                 ps.addPetList(pet);
-
+                System.out.println(pet);
                 System.out.println("\nPET REGISTERED\n");
                 activeSystem = false;
 
             } catch (NumberFormatException e) {
                 System.out.println("Error: must be a number");
-            } catch (RuntimeException e){
+            } catch (RuntimeException e) {
                 System.out.println("Error: " + e.getMessage());
             }
         }
     }
 
-    public void changePetData(Scanner scanner){
+    public void changePetData(Scanner scanner) {
     }
 }

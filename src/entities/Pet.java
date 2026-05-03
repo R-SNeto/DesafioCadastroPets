@@ -8,14 +8,14 @@ public class Pet {
     private PetType petType;
     private Gender petGender;
     private Address address;
-    private Integer age;
-    private Double weight;
+    private String age;
+    private String weight;
     private String race;
 
     public Pet() {
     }
 
-    public Pet(String name, PetType petType, Gender petGender, Address address, Integer age, Double weight, String race) {
+    public Pet(String name, PetType petType, Gender petGender, Address address, String age, String weight, String race) {
         this.name = name;
         this.petType = petType;
         this.petGender = petGender;
@@ -57,19 +57,19 @@ public class Pet {
         this.address = address;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
-    public Double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
@@ -89,10 +89,9 @@ public class Pet {
         sb.append("Pet type: ").append(petType).append("\n");
         sb.append("Pet gender: ").append(petGender).append("\n");
         address.toString(sb);
-        sb.append("Pet age: ").append(age).append(" years\n");
-        sb.append("Pet weight").append(String.format("%.2f", weight)).append(" kg\n");
+        sb.append("Pet age(years): ").append(age).append("\n");
+        sb.append("Pet weight(kg): ").append(weight).append("\n");
         sb.append("Pet race: ").append(race).append("\n");
-
 
         return sb.toString();
     }

@@ -25,8 +25,9 @@ public class PetService {
         if (!word.isBlank()) {
             if (isEspecialCharacter(word) || !hasSurname(word)) {
                 return false;
+            }else{
+                return true;
             }
-            return true;
         } else {
             return true;
         }
@@ -84,7 +85,6 @@ public class PetService {
         for(int i = 0; i < word.length(); i++){
             char c = word.charAt(i);
             int ascii = (int) c;
-            System.out.println(ascii);
 
             if (ascii >= 48 && ascii <= 57) return true;
         }
