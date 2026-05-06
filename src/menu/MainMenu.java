@@ -8,6 +8,7 @@ import entities_enum.PetType;
 import repositories.FileHandler;
 import service.PetService;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MainMenu {
@@ -30,10 +31,10 @@ public class MainMenu {
                 System.out.println("\nVETERINARY SYSTEM MANAGEMENT");
                 System.out.println("------------------------------");
                 System.out.println("[1] Register a new pet");
-                System.out.println("[2] Change registered pet data");
-                System.out.println("[3] Delete registered pet");
-                System.out.println("[4] List all registered pets");
-                System.out.println("[5] List pets by some criteria (age, name, race)");
+                System.out.println("[2] List all registered pets");
+                System.out.println("[3] List pets by some criteria (age, name, race)");
+                System.out.println("[4] Delete registered pet");
+                System.out.println("[5] Change registered pet data");
                 System.out.println("[6] Exit");
                 System.out.println("------------------------------");
                 System.out.print("Choose an option: ");
@@ -44,16 +45,16 @@ public class MainMenu {
                         registerNewPet(scanner);
                         break;
                     case 2:
-                        changePetData(scanner);
+                        listAllRegisteredPets(scanner);
                         break;
                     case 3:
-                        //deletePetData(scanner);
+                        listByCriteria(scanner);
                         break;
                     case 4:
-                        //listAllRegisteredPets(scanner);
+                        changePetData(scanner);
                         break;
                     case 5:
-                        //listByCriteria
+                        //deletePetData(scanner);
                         break;
                     case 6:
                         System.out.println("Leaving...");
@@ -191,6 +192,70 @@ public class MainMenu {
             } catch (RuntimeException e) {
                 System.out.println("Error: " + e.getMessage());
             }
+        }
+    }
+
+    public void listAllRegisteredPets(Scanner scanner){
+        System.out.println("\n      LIST PET DATA         ");
+        System.out.println("------------------------------");
+        fh.readPetDataFile();
+
+    }
+
+    public void listByCriteria(Scanner scanner){
+        boolean activeSystem = true;
+        String[] criteria = new String[2];
+        
+        try {
+            while (activeSystem) {
+                System.out.println("\n------------------------------");
+                System.out.println("          [1]     [2]           ");
+                System.out.println("------------------------------");
+                System.out.print("How many criteria? ");
+                int option = Integer.parseInt(scanner.nextLine());
+                for(int i = 0; i < option; i++) {
+                    System.out.println("[1] Name ");
+                    System.out.println("[2] Gender ");
+                    System.out.println("[3] Age ");
+                    System.out.println("[4] Race ");
+                    System.out.println("------------------------------");
+                    System.out.print("Choose the criteria: ");
+                    int sOption = Integer.parseInt(scanner.nextLine());
+                    switch (sOption) {
+                        case 1:
+                            System.out.print("Insert the pet name and/or the surname: ");
+                            criteria[i] = scanner.nextLine();
+                            System.out.println();
+                            break;
+                        case 2:
+                            System.out.print("Insert the pet gender (Male / Female): ");
+                            criteria[i] = scanner.nextLine().toUpperCase().trim();
+                            System.out.println();
+                            break;
+                        case 3:
+                            System.out.print("Insert the pet age: ");
+                            criteria[i] = scanner.nextLine().trim();
+                            System.out.println();
+                            break;
+                        case 4:
+                            System.out.print("Insert the pet race: ");
+                            criteria[i] = scanner.nextLine().trim();
+                            System.out.println();
+                            break;
+                        default:
+                            throw new RuntimeException("Invalid option");
+                    }
+                }
+                fh.readPetDataFileByCriteria(criteria);
+
+                activeSystem = false;
+            }
+        }
+        catch (NumberFormatException e){
+            System.out.println("Error: insert a valid number");
+        }
+        catch (RuntimeException e){
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

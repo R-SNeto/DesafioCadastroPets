@@ -13,5 +13,4 @@ public class Program {
         MainMenu UI = new MainMenu();
         UI.start(scanner);
     }
-
 }

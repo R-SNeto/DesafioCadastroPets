@@ -13,8 +13,8 @@ public class FileHandler {
     File folder = new File("PetData");
     File file = new File("formulario.txt");
 
-    public void writeFormFile(){
-        if(!file.exists()) {
+    public void writeFormFile() {
+        if (!file.exists()) {
             String[] questions = {"1 - What's the pet name?",
                     "2 - What's the pet type (Dog/Cat)?",
                     "3 - What's the pet gender?",
@@ -25,7 +25,7 @@ public class FileHandler {
 
             try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
                 boolean newFile = file.createNewFile();
-                if (newFile){
+                if (newFile) {
                     System.out.println("FILE CREATED SUCCESSFULLY");
                 }
                 for (String p : questions) {
@@ -39,13 +39,13 @@ public class FileHandler {
         }
     }
 
-    public void readFormFile(Form questions){
-        if(!file.exists()){
+    public void readFormFile(Form questions) {
+        if (!file.exists()) {
             writeFormFile();
         }
-        try(BufferedReader br = new BufferedReader(new FileReader(file))){
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 questions.addQuestion(line);
             }
         } catch (IOException e) {
@@ -53,12 +53,12 @@ public class FileHandler {
         }
     }
 
-    public void createPetDataFolder(){
+    public void createPetDataFolder() {
         folder.mkdir();
     }
 
-    public void writePetDataFile(Pet pet){
-        if(!folder.exists()){
+    public void writePetDataFile(Pet pet) {
+        if (!folder.exists()) {
             createPetDataFolder();
         }
         LocalDateTime creationDate = LocalDateTime.now()
@@ -69,29 +69,78 @@ public class FileHandler {
         String[] cutName = pet.getName().toUpperCase().split("\\s+");
         StringBuilder formattedPetName = new StringBuilder();
 
-        for (String p: cutName){
+        for (String p : cutName) {
             formattedPetName.append(p);
         }
 
-
         String fileName = creationDate.format(df)
                 + "T"
-                + creationDate.format(tf )+ "-"
+                + creationDate.format(tf) + "-"
                 + formattedPetName + ".txt";
-
-        System.out.println(fileName);
 
         File fileInDirectory = new File(folder, fileName);
 
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileInDirectory))){
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileInDirectory))) {
             bw.write(String.valueOf(pet));
             bw.newLine();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
+    public void readPetDataFile() {
+        File[] files = folder.listFiles();
+
+        if (files != null) {
+            for (File f : files) {
+                File filesData = new File(folder, f.getName());
+                try (BufferedReader br = new BufferedReader(new FileReader(filesData))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        System.out.println(line);
+                    }
+                    System.out.println("------------------------------");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else {
+            throw new RuntimeException("Unfounded file");
+        }
+    }
+
+    public void readPetDataFileByCriteria(String[] criteria) {
+        File[] files = folder.listFiles();
+
+        String C1 = criteria[0];
+        String C2 = " ";
+        if (criteria.length > 1) C2 = criteria[1];
+
+        if (files != null) {
+            for (File f : files) {
+                File filesData = new File(folder, f.getName());
+                try (BufferedReader br = new BufferedReader(new FileReader(filesData))) {
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        if (line.contains(C1) && line.contains(C2)) {
+                            while ((line = br.readLine()) != null) {
+                                System.out.println(line);
+                            }
+                        } else {
+                            if (line.contains(C1)) {
+                                while ((line = br.readLine()) != null) {
+                                    System.out.println(line);
+                                }
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else {
+            throw new RuntimeException("File not found");
+        }
+    }
 }
