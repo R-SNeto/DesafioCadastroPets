@@ -8,7 +8,6 @@ import entities_enum.PetType;
 import repositories.FileHandler;
 import service.PetService;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class MainMenu {
@@ -207,21 +206,27 @@ public class MainMenu {
         String[] criteria = new String[2];
         
         try {
+            System.out.println("---------");
+            System.out.println("[1] DOG");
+            System.out.println("[2] CAT");
+            System.out.println("---------");
+            System.out.print("Choose the pet type: ");
+            int fOption = Integer.parseInt(scanner.nextLine());
             while (activeSystem) {
                 System.out.println("\n------------------------------");
                 System.out.println("          [1]     [2]           ");
                 System.out.println("------------------------------");
                 System.out.print("How many criteria? ");
-                int option = Integer.parseInt(scanner.nextLine());
-                for(int i = 0; i < option; i++) {
+                int sOption = Integer.parseInt(scanner.nextLine());
+                for(int i = 0; i < sOption; i++) {
                     System.out.println("[1] Name ");
                     System.out.println("[2] Gender ");
                     System.out.println("[3] Age ");
                     System.out.println("[4] Race ");
                     System.out.println("------------------------------");
                     System.out.print("Choose the criteria: ");
-                    int sOption = Integer.parseInt(scanner.nextLine());
-                    switch (sOption) {
+                    int tOption = Integer.parseInt(scanner.nextLine());
+                    switch (tOption) {
                         case 1:
                             System.out.print("Insert the pet name and/or the surname: ");
                             criteria[i] = scanner.nextLine();
@@ -246,7 +251,7 @@ public class MainMenu {
                             throw new RuntimeException("Invalid option");
                     }
                 }
-                fh.readPetDataFileByCriteria(criteria);
+                fh.readPetDataByCriteria(fOption, criteria);
 
                 activeSystem = false;
             }

@@ -2,12 +2,12 @@ package repositories;
 
 import entities.Form;
 import entities.Pet;
+import entities_enum.PetType;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 public class FileHandler {
     File folder = new File("PetData");
@@ -110,27 +110,36 @@ public class FileHandler {
         }
     }
 
-    public void readPetDataFileByCriteria(String[] criteria) {
+    public void readPetDataByCriteria(int option, String[] criteria) {
         File[] files = folder.listFiles();
 
         String C1 = criteria[0];
-        String C2 = " ";
-        if (criteria.length > 1) C2 = criteria[1];
+        String crit1 = C1.toUpperCase().trim();
+        String C2 = "";
+        String crit2 = "";
+        String petType = String.valueOf(PetType.valueOf(option));
+        String path;
 
+        if (criteria.length > 1) {
+            C2 = criteria[1];
+            crit2 = C2.toUpperCase().trim();
+        }
         if (files != null) {
             for (File f : files) {
                 File filesData = new File(folder, f.getName());
                 try (BufferedReader br = new BufferedReader(new FileReader(filesData))) {
                     String line;
-                    while ((line = br.readLine()) != null) {
-                        if (line.contains(C1) && line.contains(C2)) {
-                            while ((line = br.readLine()) != null) {
-                                System.out.println(line);
-                            }
-                        } else {
-                            if (line.contains(C1)) {
-                                while ((line = br.readLine()) != null) {
-                                    System.out.println(line);
+                    while ((line = br.readLine()) != null){
+                        if(line.toUpperCase().trim().contains(petType)) {
+                            if (!C2.isBlank()) {
+                                if (line.toUpperCase().trim().contains(crit1) && line.toUpperCase().trim().contains(crit2)) {
+                                    path = f.getPath();
+                                } else {
+                                    throw new RuntimeException("Characteristics not found");
+                                }
+                            } else {
+                                if (line.toUpperCase().trim().contains(crit1)) {
+                                    path = f.getPath();
                                 }
                             }
                         }
@@ -142,5 +151,9 @@ public class FileHandler {
         } else {
             throw new RuntimeException("File not found");
         }
+    }
+
+    public void readPetDataByCriteriaExtension () {
+
     }
 }
