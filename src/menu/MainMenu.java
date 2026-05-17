@@ -30,11 +30,10 @@ public class MainMenu {
                 System.out.println("\nVETERINARY SYSTEM MANAGEMENT");
                 System.out.println("------------------------------");
                 System.out.println("[1] Register a new pet");
-                System.out.println("[2] List all registered pets");
-                System.out.println("[3] List pets by some criteria (age, name, race)");
-                System.out.println("[4] Delete registered pet");
-                System.out.println("[5] Change registered pet data");
-                System.out.println("[6] Exit");
+                System.out.println("[2] List pets");
+                System.out.println("[3] Delete registered pet");
+                System.out.println("[4] Change registered pet data");
+                System.out.println("[5] Exit");
                 System.out.println("------------------------------");
                 System.out.print("Choose an option: ");
                 int option = Integer.parseInt(scanner.nextLine());
@@ -44,18 +43,30 @@ public class MainMenu {
                         registerNewPet(scanner);
                         break;
                     case 2:
-                        listAllRegisteredPets(scanner);
+                        System.out.println("------------------------------");
+                        System.out.println("[1] List all pets");
+                        System.out.println("[2] List pets by criteria");
+                        System.out.println("------------------------------");
+                        System.out.println("Choose: ");
+
+                        switch (Integer.parseInt(scanner.nextLine())) {
+                            case 1:
+                                listAllRegisteredPets(scanner);
+                                break;
+                            case 2:
+                                listByCriteria(scanner);
+                                break;
+                            default:
+                                throw new IllegalArgumentException("Insert a valid option");
+                        }
                         break;
                     case 3:
-                        listByCriteria(scanner);
-                        break;
-                    case 4:
                         changePetData(scanner);
                         break;
-                    case 5:
+                    case 4:
                         //deletePetData(scanner);
                         break;
-                    case 6:
+                    case 5:
                         System.out.println("Leaving...");
                         activeSystem = false;
                         break;
@@ -64,6 +75,8 @@ public class MainMenu {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\nError: insert a number\n");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e.getMessage() );
             } catch (RuntimeException e) {
                 System.out.println("\nError: " + e.getMessage() + "\n");
             }
@@ -195,18 +208,20 @@ public class MainMenu {
     }
 
     public void listAllRegisteredPets(Scanner scanner){
-        System.out.println("\n      LIST PET DATA         ");
+        System.out.println("\n         PET DATA         ");
         System.out.println("------------------------------");
         fh.readPetDataFile();
 
     }
 
     public void listByCriteria(Scanner scanner){
+        System.out.println("\n         PET DATA         ");
+        System.out.println("------------------------------");
+
         boolean activeSystem = true;
         String[] criteria = new String[2];
-        
+
         try {
-            System.out.println("---------");
             System.out.println("[1] DOG");
             System.out.println("[2] CAT");
             System.out.println("---------");
@@ -265,5 +280,10 @@ public class MainMenu {
     }
 
     public void changePetData(Scanner scanner) {
+        listByCriteria(scanner);
+
+
+
+
     }
 }

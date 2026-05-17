@@ -113,47 +113,61 @@ public class FileHandler {
     public void readPetDataByCriteria(int option, String[] criteria) {
         File[] files = folder.listFiles();
 
-        String C1 = criteria[0];
-        String crit1 = C1.toUpperCase().trim();
-        String C2 = "";
-        String crit2 = "";
-        String petType = String.valueOf(PetType.valueOf(option));
-        String path;
-
-        if (criteria.length > 1) {
-            C2 = criteria[1];
-            crit2 = C2.toUpperCase().trim();
+        if (files == null){
+            throw new RuntimeException("File not found");
         }
-        if (files != null) {
-            for (File f : files) {
-                File filesData = new File(folder, f.getName());
-                try (BufferedReader br = new BufferedReader(new FileReader(filesData))) {
+
+        String C1 = criteria[0].toUpperCase().trim();
+        String C2 = "";
+        if (criteria[1] != null) {
+            C2 = criteria[1].toUpperCase().trim();
+        }
+        String petType = String.valueOf(PetType.valueOf(option));
+
+        for (File f : files) {
+            boolean fileMatch = false;
+
+            boolean findContains1 = false;
+            boolean findContains2 = false;
+            boolean findContains3 = false;
+
+            try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    String formattedLine = line.toUpperCase().trim();
+                    boolean contains1 = formattedLine.contains(petType);
+                    boolean contains2 = formattedLine.contains(C1);
+                    boolean contains3 = C2.isBlank() || formattedLine.contains(C2);
+
+                    if (contains1) findContains1 = true;
+                    if (contains2) findContains2 = true;
+                    if (contains3) findContains3 = true;
+
+                    if (findContains1 && findContains2 && findContains3) {
+                        fileMatch = true;
+                        break;
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (fileMatch) {
+                try (BufferedReader br = new BufferedReader(new FileReader(f))) {
                     String line;
-                    while ((line = br.readLine()) != null){
-                        if(line.toUpperCase().trim().contains(petType)) {
-                            if (!C2.isBlank()) {
-                                if (line.toUpperCase().trim().contains(crit1) && line.toUpperCase().trim().contains(crit2)) {
-                                    path = f.getPath();
-                                } else {
-                                    throw new RuntimeException("Characteristics not found");
-                                }
-                            } else {
-                                if (line.toUpperCase().trim().contains(crit1)) {
-                                    path = f.getPath();
-                                }
-                            }
-                        }
+
+                    while ((line = br.readLine()) != null) {
+                        System.out.println(line);
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
-        } else {
-            throw new RuntimeException("File not found");
         }
     }
 
-    public void readPetDataByCriteriaExtension () {
+    public void changePetData () {
 
     }
 }
