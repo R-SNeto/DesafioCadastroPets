@@ -139,8 +139,6 @@ public class FileHandler {
             boolean findContains2 = false;
             boolean findContains3 = false;
 
-            System.out.println("       PET #" + (count + 1));
-            System.out.println("-------------------");
             try (BufferedReader br = new BufferedReader(new FileReader(f))) {
                 String line;
 
@@ -168,6 +166,8 @@ public class FileHandler {
                 try (BufferedReader br = new BufferedReader(new FileReader(f))) {
                     String line;
 
+                    System.out.println("       PET #" + (count + 1)); //ARRUMAR AMANHÃ
+                    System.out.println("-------------------");
                     while ((line = br.readLine()) != null) {
                         System.out.println(line);
                     }
