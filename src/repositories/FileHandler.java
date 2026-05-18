@@ -8,10 +8,17 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileHandler {
-    File folder = new File("PetData");
-    File file = new File("formulario.txt");
+    private final File folder = new File("PetData");
+    private final File file = new File("formulario.txt");
+    private List<String> auxPetList = new ArrayList<>();
+
+    public List<String> getAuxPetList() {
+        return new ArrayList<>(auxPetList);
+    }
 
     public void writeFormFile() {
         if (!file.exists()) {
@@ -106,7 +113,7 @@ public class FileHandler {
                 }
             }
         } else {
-            throw new RuntimeException("Unfounded file");
+            throw new RuntimeException("File not found");
         }
     }
 
@@ -123,6 +130,7 @@ public class FileHandler {
             C2 = criteria[1].toUpperCase().trim();
         }
         String petType = String.valueOf(PetType.valueOf(option));
+        int count = 0;
 
         for (File f : files) {
             boolean fileMatch = false;
@@ -131,6 +139,8 @@ public class FileHandler {
             boolean findContains2 = false;
             boolean findContains3 = false;
 
+            System.out.println("       PET #" + (count + 1));
+            System.out.println("-------------------");
             try (BufferedReader br = new BufferedReader(new FileReader(f))) {
                 String line;
 
@@ -146,6 +156,7 @@ public class FileHandler {
 
                     if (findContains1 && findContains2 && findContains3) {
                         fileMatch = true;
+                        if (!auxPetList.contains(f.getName())) auxPetList.add(String.valueOf(f));
                         break;
                     }
                 }

@@ -31,8 +31,8 @@ public class MainMenu {
                 System.out.println("------------------------------");
                 System.out.println("[1] Register a new pet");
                 System.out.println("[2] List pets");
-                System.out.println("[3] Delete registered pet");
-                System.out.println("[4] Change registered pet data");
+                System.out.println("[3] Change registered pet data");
+                System.out.println("[4] Delete registered pet");
                 System.out.println("[5] Exit");
                 System.out.println("------------------------------");
                 System.out.print("Choose an option: ");
@@ -47,7 +47,7 @@ public class MainMenu {
                         System.out.println("[1] List all pets");
                         System.out.println("[2] List pets by criteria");
                         System.out.println("------------------------------");
-                        System.out.println("Choose: ");
+                        System.out.print("Choose: ");
 
                         switch (Integer.parseInt(scanner.nextLine())) {
                             case 1:
@@ -282,8 +282,10 @@ public class MainMenu {
     public void changePetData(Scanner scanner) {
         listByCriteria(scanner);
 
+        System.out.println("------------------------------");
+        System.out.print("Select the number of the pet to change data: ");
+        int option = Integer.parseInt(scanner.nextLine());
 
-
-
+        System.out.println(fh.getAuxPetList().get(option-1));
     }
 }
