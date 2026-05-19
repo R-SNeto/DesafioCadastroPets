@@ -263,16 +263,6 @@ public class MainMenu {
         String newNeighborhood = scanner.nextLine();
         System.out.print("New pet age: ");
         String newAge = scanner.nextLine();
-        if (newAge.isBlank()){
-            age = NOT_INFORMED;
-        }else {
-            int fAge = Integer.parseInt(answer);
-            if (ps.isCorrectAge(fAge)) {
-                age = String.valueOf(fAge);
-            } else {
-                throw new IllegalArgumentException("must be a valid age");
-            }
-        }
         System.out.print("New weight: ");
         String newWeight = scanner.nextLine();
         System.out.println("New pet race: ");

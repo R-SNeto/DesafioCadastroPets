@@ -11,7 +11,7 @@ public class PetInputProcessor {
 
         int value = Integer.parseInt(answer);
 
-        if (ps.isCorrectAge(value)) {
+        if (!ps.isCorrectAge(value)) {
             throw new IllegalArgumentException("insert a valid age");
         }
 
@@ -23,7 +23,7 @@ public class PetInputProcessor {
 
         double value = Double.parseDouble(answer);
 
-        if (ps.isCorrectWeight(value)) {
+        if (!ps.isCorrectWeight(value)) {
             throw new IllegalArgumentException("insert a valid weight");
         }
 
@@ -33,7 +33,7 @@ public class PetInputProcessor {
     public String processName (String answer) {
         if (answer.isBlank()) return NOT_INFORMED;
 
-        if (ps.validateName(answer)) {
+        if (!ps.validateName(answer)) {
             throw new IllegalArgumentException("insert a valid name");
         }
 
@@ -43,7 +43,7 @@ public class PetInputProcessor {
     public String processRace (String answer) {
         if (answer.isBlank()) return NOT_INFORMED;
 
-        if (ps.validateRace(answer)) {
+        if (!ps.validateRace(answer)) {
             throw new IllegalArgumentException("insert a valid race");
         }
 
