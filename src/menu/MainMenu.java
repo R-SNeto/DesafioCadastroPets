@@ -251,22 +251,32 @@ public class MainMenu {
                 System.out.print("Select the number of the pet to change data: ");
                 int option = Integer.parseInt(scanner.nextLine());
 
+                int newType = fh.getTypeByFile(option);
+                int newGender = fh.getGenderByFile(option);
+
                 System.out.println("------------------------------");
                 System.out.print("1) New Pet Name: ");
                 String newName = pis.processName(scanner.nextLine());
-                System.out.print("2) New address where the pet was found: ");
+                System.out.println("2) New address where the pet was found: ");
                 System.out.print("2.1) State: ");
                 String newState = pis.processString(scanner.nextLine());
                 System.out.print("2.2) City: ");
                 String newCity = pis.processString(scanner.nextLine());
                 System.out.print("2.3) Neighborhood: ");
                 String newNeighborhood = pis.processString(scanner.nextLine());
+
+                Address newAddress = new Address(newState, newCity, newNeighborhood);
+
                 System.out.print("New pet age: ");
                 String newAge = pis.processAge(scanner.nextLine());
                 System.out.print("New weight: ");
                 String newWeight = pis.processWeight(scanner.nextLine());
-                System.out.println("New pet race: ");
+                System.out.print("New pet race: ");
                 String newRace = pis.processRace(scanner.nextLine());
+
+                Pet pet = new Pet(newName, PetType.valueOf(newType),
+                        Gender.valueOf(newGender), newAddress, newAge,
+                        newWeight, newRace);
 
                 activeSystem = false;
 

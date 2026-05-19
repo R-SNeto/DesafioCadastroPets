@@ -179,7 +179,42 @@ public class FileHandler {
         }
     }
 
-    public void changePetData () {
+    public String getFieldValue(int option, String fieldName) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getAuxPetList().get(option - 1)))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                if (line.toLowerCase().contains(fieldName.toLowerCase())) {
+                    String[] fields = line.split(": ");
+                        return fields[1];
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
+
+    public int getTypeByFile(int option) {
+       String type = getFieldValue(option, "type");
+
+       if (type.equals("DOG")) return 1;
+       else if (type.equals("CAT")) return 2;
+
+       return 0;
+    }
+
+    public int getGenderByFile(int option) {
+        String type = getFieldValue(option, "gender");
+
+        if (type.equals("FEMALE")) return 1;
+        else if (type.equals("MALE")) return 2;
+
+        return 0;
+    }
+
+    public void changePetData() {
 
     }
 }
