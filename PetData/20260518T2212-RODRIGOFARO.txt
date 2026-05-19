@@ -1,0 +1,11 @@
+Pet name: Rodrigo Faro
+Pet type: CAT
+Pet gender: MALE
+Address where the pet was found: 
+I) State: NOT INFORMED
+II) City: NOT INFORMED
+III Neighborhood: NOT INFORMED
+Pet age(years): 11
+Pet weight(kg): 30.0
+Pet race: Leoncio
+

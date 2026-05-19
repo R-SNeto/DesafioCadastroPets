@@ -77,8 +77,6 @@ public class MainMenu {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\nError: insert a number\n");
-            } catch (IllegalArgumentException e) {
-                System.out.println("Error: " + e.getMessage() );
             } catch (RuntimeException e) {
                 System.out.println("\nError: " + e.getMessage() + "\n");
             }
@@ -165,7 +163,7 @@ public class MainMenu {
                 activeSystem = false;
 
             } catch (NumberFormatException e) {
-                System.out.println("Error: must be a number");
+                System.out.println("Error: must be a valid number");
             } catch (RuntimeException e) {
                 System.out.println("Error: " + e.getMessage());
             }
@@ -246,26 +244,35 @@ public class MainMenu {
 
     public void changePetData(Scanner scanner) {
         listByCriteria(scanner);
+        boolean activeSystem = true;
+        while (activeSystem) {
+            try {
+                System.out.println("------------------------------");
+                System.out.print("Select the number of the pet to change data: ");
+                int option = Integer.parseInt(scanner.nextLine());
 
-        System.out.println("------------------------------");
-        System.out.print("Select the number of the pet to change data: ");
-        int option = Integer.parseInt(scanner.nextLine());
+                System.out.println("------------------------------");
+                System.out.print("1) New Pet Name: ");
+                String newName = pis.processName(scanner.nextLine());
+                System.out.print("2) New address where the pet was found: ");
+                System.out.print("2.1) State: ");
+                String newState = pis.processString(scanner.nextLine());
+                System.out.print("2.2) City: ");
+                String newCity = pis.processString(scanner.nextLine());
+                System.out.print("2.3) Neighborhood: ");
+                String newNeighborhood = pis.processString(scanner.nextLine());
+                System.out.print("New pet age: ");
+                String newAge = pis.processAge(scanner.nextLine());
+                System.out.print("New weight: ");
+                String newWeight = pis.processWeight(scanner.nextLine());
+                System.out.println("New pet race: ");
+                String newRace = pis.processRace(scanner.nextLine());
 
-        System.out.println("------------------------------");
-        System.out.print("1) New Pet Name: ");
-        String newName = scanner.nextLine();
-        System.out.print("2) New address where the pet was found: ");
-        System.out.print("2.1) State: ");
-        String newState = scanner.nextLine();
-        System.out.print("2.2) City: ");
-        String newCity = scanner.nextLine();
-        System.out.print("2.3) Neighborhood: ");
-        String newNeighborhood = scanner.nextLine();
-        System.out.print("New pet age: ");
-        String newAge = scanner.nextLine();
-        System.out.print("New weight: ");
-        String newWeight = scanner.nextLine();
-        System.out.println("New pet race: ");
-        String newRace = scanner.nextLine();
+                activeSystem = false;
+
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error: " + e);
+            }
+        }
     }
 }
