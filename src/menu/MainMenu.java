@@ -6,14 +6,16 @@ import entities.Pet;
 import entities_enum.Gender;
 import entities_enum.PetType;
 import repositories.FileHandler;
+import service.PetInputProcessor;
 import service.PetService;
 
 import java.util.Scanner;
 
 public class MainMenu {
-    static FileHandler fh = new FileHandler();
-    static Form questions = new Form();
-    static PetService ps = new PetService();
+    public static FileHandler fh = new FileHandler();
+    public static Form questions = new Form();
+    public static PetService ps = new PetService();
+    public static PetInputProcessor pis = new PetInputProcessor();
 
     public static final String NOT_INFORMED = "NOT INFORMED";
 
@@ -125,64 +127,27 @@ public class MainMenu {
                         System.out.println();
                     } else if (ask.contains("address")) {
                         System.out.print("I) State: ");
-                        state = scanner.nextLine();
-                        if (state.isBlank()) state = NOT_INFORMED;
+                        state = pis.processString(scanner.nextLine());
                         System.out.print("II) City: ");
-                        city = scanner.nextLine();
-                        if (city.isBlank()) city = NOT_INFORMED;
+                        city = pis.processString(scanner.nextLine());
                         System.out.print("III) Neighborhood: ");
-                        neighborhood = scanner.nextLine();
-                        if (neighborhood.isBlank()) neighborhood = NOT_INFORMED;
+                        neighborhood = pis.processString(scanner.nextLine());
                         System.out.println();
                     } else {
                         String answer = scanner.nextLine();
 
                         if (ask.contains("name")) {
-                            if (answer.isBlank()){
-                                name = NOT_INFORMED;
-                            }else {
-                                if (ps.validateName(answer)) {
-                                    name = answer;
-                                } else {
-                                    throw new IllegalArgumentException("must have a surname or not be a especial character");
-                                }
-                            }
+                            name = pis.processName(answer);
                         }
                         else if (ask.contains("age")) {
-                            if (answer.isBlank()){
-                                age = NOT_INFORMED;
-                            }else {
-                                int fAge = Integer.parseInt(answer);
-                                if (ps.isCorrectAge(fAge)) {
-                                    age = String.valueOf(fAge);
-                                } else {
-                                    throw new IllegalArgumentException("must be a valid age");
-                                }
-                            }
+                            age = pis.processAge(answer);
 
                         }
                         else if (ask.contains("weight")) {
-                            if (answer.isBlank()){
-                                weight = NOT_INFORMED;
-                            }else {
-                                double fWeight = Double.parseDouble(answer);
-                                if (ps.isCorrectWeight(fWeight)) {
-                                    weight = String.valueOf(fWeight);
-                                } else {
-                                    throw new IllegalArgumentException("must be a valid weight");
-                                }
-                            }
+                            weight = pis.processWeight(answer);
                         }
                         else if (ask.contains("race")) {
-                            if (answer.isBlank()) {
-                                race = NOT_INFORMED;
-                            } else {
-                                if (ps.validateRace(answer)) {
-                                    race = answer;
-                                } else {
-                                    throw new IllegalArgumentException("must be a valid race");
-                                }
-                            }
+                            race = pis.processRace(answer);
                         }
                     }
                 }
@@ -286,6 +251,31 @@ public class MainMenu {
         System.out.print("Select the number of the pet to change data: ");
         int option = Integer.parseInt(scanner.nextLine());
 
-        System.out.println(fh.getAuxPetList().get(option-1));
+        System.out.println("------------------------------");
+        System.out.print("1) New Pet Name: ");
+        String newName = scanner.nextLine();
+        System.out.print("2) New address where the pet was found: ");
+        System.out.print("2.1) State: ");
+        String newState = scanner.nextLine();
+        System.out.print("2.2) City: ");
+        String newCity = scanner.nextLine();
+        System.out.print("2.3) Neighborhood: ");
+        String newNeighborhood = scanner.nextLine();
+        System.out.print("New pet age: ");
+        String newAge = scanner.nextLine();
+        if (newAge.isBlank()){
+            age = NOT_INFORMED;
+        }else {
+            int fAge = Integer.parseInt(answer);
+            if (ps.isCorrectAge(fAge)) {
+                age = String.valueOf(fAge);
+            } else {
+                throw new IllegalArgumentException("must be a valid age");
+            }
+        }
+        System.out.print("New weight: ");
+        String newWeight = scanner.nextLine();
+        System.out.println("New pet race: ");
+        String newRace = scanner.nextLine();
     }
 }

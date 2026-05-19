@@ -14,7 +14,7 @@ import java.util.List;
 public class FileHandler {
     private final File folder = new File("PetData");
     private final File file = new File("formulario.txt");
-    private List<String> auxPetList = new ArrayList<>();
+    List<String> auxPetList;
 
     public List<String> getAuxPetList() {
         return new ArrayList<>(auxPetList);
@@ -119,6 +119,7 @@ public class FileHandler {
 
     public void readPetDataByCriteria(int option, String[] criteria) {
         File[] files = folder.listFiles();
+        auxPetList = new ArrayList<>();
 
         if (files == null){
             throw new RuntimeException("File not found");
@@ -154,7 +155,7 @@ public class FileHandler {
 
                     if (findContains1 && findContains2 && findContains3) {
                         fileMatch = true;
-                        if (!auxPetList.contains(f.getName())) auxPetList.add(String.valueOf(f));
+                        if (!auxPetList.contains(f.getName())) auxPetList.add(f.getAbsolutePath());
                         break;
                     }
                 }
@@ -166,7 +167,7 @@ public class FileHandler {
                 try (BufferedReader br = new BufferedReader(new FileReader(f))) {
                     String line;
 
-                    System.out.println("       PET #" + (count + 1)); //ARRUMAR AMANHÃ
+                    System.out.println("       PET #" + (count + 1));
                     System.out.println("-------------------");
                     while ((line = br.readLine()) != null) {
                         System.out.println(line);
