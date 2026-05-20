@@ -156,7 +156,6 @@ public class MainMenu {
                         Gender.valueOf(gender), local, age, weight,
                         race);
 
-                ps.addPetList(pet);
                 fh.writePetDataFile(pet);
 
                 System.out.println("\nPET REGISTERED\n");
@@ -264,19 +263,23 @@ public class MainMenu {
 
                 Address newAddress = new Address(newState, newCity, newNeighborhood);
 
-                System.out.print("New pet age: ");
+                System.out.print("3) New pet age: ");
                 String newAge = pis.processAge(scanner.nextLine());
-                System.out.print("New weight: ");
+                System.out.print("4) New weight: ");
                 String newWeight = pis.processWeight(scanner.nextLine());
-                System.out.print("New pet race: ");
+                System.out.print("5) New pet race: ");
                 String newRace = pis.processRace(scanner.nextLine());
 
                 Pet pet = new Pet(newName, PetType.valueOf(newType),
                         Gender.valueOf(newGender), newAddress, newAge,
                         newWeight, newRace);
 
-                fh.writePetDataFile(pet);
-                //PROCESSO DE SOBRE-ESCRITA FEITO. CONTINUAR APÓS CRIAR O MÓDULO DE DELEÇÃO DE ARQUIVOS
+                if (fh.deletePetData(option, scanner)) {
+                    fh.writePetDataFile(pet);
+                    System.out.println("\nData modified successfully\n");
+                } else {
+                    System.out.println("\nReturning to menu...\n");
+                }
 
                 activeSystem = false;
 

@@ -259,10 +259,6 @@ public class FileHandler {
         return 0;
     }
 
-    public void changePetData() {
-
-    }
-
     public boolean deletePetData(int option, Scanner scanner) {
         if (!deletedPetDataFolder.exists()) {
             createDeletedPetDataFolder();
@@ -274,8 +270,10 @@ public class FileHandler {
 
         if (pis.processConfirmation(scanner)) {
             try {
-                Files.copy(Path.of(path), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                Files.delete(Path.of(path));
+                Path source = Path.of(path);
+
+                Files.copy(source, destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.delete(source);
 
                 removeAuxPathList(path);
                 removeAuxFileNameList(fileName);

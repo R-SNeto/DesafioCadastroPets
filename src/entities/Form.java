@@ -13,10 +13,6 @@ public class Form {
         }
     }
 
-    public void removeQuestion(String question){
-        questionList.remove(question);
-    }
-
     public String getQuestion(int i) {
         return questionList.get(i);
     }

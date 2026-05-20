@@ -59,7 +59,7 @@ public class PetInputProcessor {
     }
 
     public boolean processConfirmation (Scanner scanner) {
-        System.out.print("\nDo you really wanna do this? (YES/NO)");
+        System.out.print("\nDo you really wanna do this? (YES/NO) ");
         String yesNo = scanner.nextLine();
 
         if (yesNo.toUpperCase().equals("YES")) return true;
