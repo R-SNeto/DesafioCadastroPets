@@ -1,5 +1,7 @@
 package service;
 
+import java.util.Scanner;
+
 import static menu.MainMenu.ps;
 
 public class PetInputProcessor {
@@ -56,4 +58,11 @@ public class PetInputProcessor {
         return answer;
     }
 
+    public boolean processConfirmation (Scanner scanner) {
+        System.out.print("\nDo you really wanna do this? (YES/NO)");
+        String yesNo = scanner.nextLine();
+
+        if (yesNo.toUpperCase().equals("YES")) return true;
+        else return false;
+    }
 }

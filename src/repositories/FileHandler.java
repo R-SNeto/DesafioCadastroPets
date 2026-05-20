@@ -3,21 +3,50 @@ package repositories;
 import entities.Form;
 import entities.Pet;
 import entities_enum.PetType;
+import service.PetInputProcessor;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class FileHandler {
-    private final File folder = new File("PetData");
+    private final File petDataFolder = new File("PetData");
+    private final File deletedPetDataFolder = new File ("DeletedPetData");
     private final File file = new File("formulario.txt");
-    private List<String> auxPetList;
 
-    public List<String> getAuxPetList() {
-        return new ArrayList<>(auxPetList);
+    private PetInputProcessor pis = new PetInputProcessor();
+    private List<String> auxPathList;
+    private List<String> auxFileNameList;
+
+    public void addAuxPathList (String path) {
+        auxPathList.add(path);
+    }
+
+    public void removeAuxPathList (String path) {
+        auxPathList.remove(path);
+    }
+
+    public void addAuxFileNameList (String name) {
+        auxFileNameList.add(name);
+    }
+
+    public void removeAuxFileNameList (String name) {
+        auxFileNameList.remove(name);
+    }
+
+    public List<String> getAuxPathList() {
+        return new ArrayList<>(auxPathList);
+    }
+
+    public List<String> getAuxFileNameList() {
+        return new ArrayList<>(auxFileNameList);
     }
 
     public void writeFormFile() {
@@ -61,11 +90,15 @@ public class FileHandler {
     }
 
     public void createPetDataFolder() {
-        folder.mkdir();
+        petDataFolder.mkdir();
+    }
+
+    public void createDeletedPetDataFolder() {
+        deletedPetDataFolder.mkdir();
     }
 
     public void writePetDataFile(Pet pet) {
-        if (!folder.exists()) {
+        if (!petDataFolder.exists()) {
             createPetDataFolder();
         }
         LocalDateTime creationDate = LocalDateTime.now()
@@ -85,7 +118,7 @@ public class FileHandler {
                 + creationDate.format(tf) + "-"
                 + formattedPetName + ".txt";
 
-        File fileInDirectory = new File(folder, fileName);
+        File fileInDirectory = new File(petDataFolder, fileName);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileInDirectory))) {
             bw.write(String.valueOf(pet));
@@ -97,11 +130,11 @@ public class FileHandler {
     }
 
     public void readPetDataFile() {
-        File[] files = folder.listFiles();
+        File[] files = petDataFolder.listFiles();
 
         if (files != null) {
             for (File f : files) {
-                File filesData = new File(folder, f.getName());
+                File filesData = new File(petDataFolder, f.getName());
                 try (BufferedReader br = new BufferedReader(new FileReader(filesData))) {
                     String line;
                     while ((line = br.readLine()) != null) {
@@ -118,8 +151,9 @@ public class FileHandler {
     }
 
     public void readPetDataByCriteria(int option, String[] criteria) {
-        File[] files = folder.listFiles();
-        auxPetList = new ArrayList<>();
+        File[] files = petDataFolder.listFiles();
+        auxPathList = new ArrayList<>();
+        auxFileNameList = new ArrayList<>();
 
         if (files == null){
             throw new RuntimeException("File not found");
@@ -155,7 +189,10 @@ public class FileHandler {
 
                     if (findContains1 && findContains2 && findContains3) {
                         fileMatch = true;
-                        if (!auxPetList.contains(f.getName())) auxPetList.add(f.getAbsolutePath());
+                        if (!auxPathList.contains(f.getAbsolutePath())) {
+                            addAuxPathList(f.getAbsolutePath());
+                            addAuxFileNameList(f.getName());
+                        }
                         break;
                     }
                 }
@@ -175,16 +212,17 @@ public class FileHandler {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+                count++;
             }
         }
     }
 
     public String getPathByList (int option) {
-        return getAuxPetList().get(option - 1);
+        return getAuxPathList().get(option - 1);
     }
 
     public String getFieldValue(int option, String fieldName) {
-        try (BufferedReader br = new BufferedReader(new FileReader(getAuxPetList().get(option - 1)))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getAuxPathList().get(option - 1)))) {
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -220,5 +258,31 @@ public class FileHandler {
 
     public void changePetData() {
 
+    }
+
+    public boolean deletePetData(int option, Scanner scanner) {
+        if (!deletedPetDataFolder.exists()) {
+            createDeletedPetDataFolder();
+        }
+
+        String path = getPathByList(option);
+        File destination = new File (deletedPetDataFolder, getAuxFileNameList().get(option - 1));
+        String fileName = destination.getName();
+
+        if (pis.processConfirmation(scanner)) {
+            try {
+                Files.copy(Path.of(path), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.delete(Path.of(path));
+
+                removeAuxPathList(path);
+                removeAuxFileNameList(fileName);
+
+                return true;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return false;
+        }
     }
 }

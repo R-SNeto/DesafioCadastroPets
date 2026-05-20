@@ -66,7 +66,7 @@ public class MainMenu {
                         changePetData(scanner);
                         break;
                     case 4:
-                        //deletePetData(scanner);
+                        deletePetData(scanner);
                         break;
                     case 5:
                         System.out.println("Leaving...");
@@ -286,6 +286,20 @@ public class MainMenu {
             } catch (IllegalArgumentException e) {
                 System.out.println("Error: " + e);
             }
+        }
+    }
+
+    public void deletePetData (Scanner scanner) {
+        listByCriteria(scanner);
+
+        System.out.println("------------------------------");
+        System.out.print("Select the number of the pet to delete data: ");
+        int option = Integer.parseInt(scanner.nextLine());
+
+        if (fh.deletePetData(option, scanner)) {
+            System.out.println("\nPET SUCCESSFULLY REMOVED\n");
+        } else {
+            System.out.println("\nReturning to menu...\n");
         }
     }
 }
