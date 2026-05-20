@@ -226,7 +226,7 @@ public class MainMenu {
                             System.out.println();
                             break;
                         default:
-                            throw new RuntimeException("Invalid option");
+                            throw new NumberFormatException("Invalid option");
                     }
                 }
                 fh.readPetDataByCriteria(fOption, criteria);
@@ -236,9 +236,6 @@ public class MainMenu {
         }
         catch (NumberFormatException e){
             System.out.println("Error: insert a valid number");
-        }
-        catch (RuntimeException e){
-            System.out.println("Error: " + e.getMessage());
         }
     }
 

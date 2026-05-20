@@ -165,7 +165,8 @@ public class FileHandler {
             C2 = criteria[1].toUpperCase().trim();
         }
         String petType = String.valueOf(PetType.valueOf(option));
-        int count = 0;
+
+        int controlVariable = 0;
 
         for (File f : files) {
             boolean fileMatch = false;
@@ -204,17 +205,19 @@ public class FileHandler {
                 try (BufferedReader br = new BufferedReader(new FileReader(f))) {
                     String line;
 
-                    System.out.println("       PET #" + (count + 1));
+                    System.out.println("       PET #" + (controlVariable + 1));
                     System.out.println("-------------------");
                     while ((line = br.readLine()) != null) {
                         System.out.println(line);
+
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                count++;
+                controlVariable++;
             }
         }
+        if (controlVariable == 0) throw new RuntimeException("Pet not found");
     }
 
     public String getPathByList (int option) {
