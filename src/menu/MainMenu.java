@@ -278,6 +278,9 @@ public class MainMenu {
                         Gender.valueOf(newGender), newAddress, newAge,
                         newWeight, newRace);
 
+                fh.writePetDataFile(pet);
+                //PROCESSO DE SOBRE-ESCRITA FEITO. CONTINUAR APÓS CRIAR O MÓDULO DE DELEÇÃO DE ARQUIVOS
+
                 activeSystem = false;
 
             } catch (IllegalArgumentException e) {

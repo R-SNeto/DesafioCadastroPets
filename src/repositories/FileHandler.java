@@ -14,7 +14,7 @@ import java.util.List;
 public class FileHandler {
     private final File folder = new File("PetData");
     private final File file = new File("formulario.txt");
-    List<String> auxPetList;
+    private List<String> auxPetList;
 
     public List<String> getAuxPetList() {
         return new ArrayList<>(auxPetList);
@@ -179,6 +179,10 @@ public class FileHandler {
         }
     }
 
+    public String getPathByList (int option) {
+        return getAuxPetList().get(option - 1);
+    }
+
     public String getFieldValue(int option, String fieldName) {
         try (BufferedReader br = new BufferedReader(new FileReader(getAuxPetList().get(option - 1)))) {
             String line;
@@ -205,7 +209,7 @@ public class FileHandler {
        return 0;
     }
 
-    public int getGenderByFile(int option) {
+    public int getGenderByFile(int option)   {
         String type = getFieldValue(option, "gender");
 
         if (type.equals("FEMALE")) return 1;
