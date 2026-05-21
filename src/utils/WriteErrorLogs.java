@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class WriteErrorLogs {
+
+    //Class responsible for write error logs
+
     private final File logFolder = new File("Logs");
 
     public void makeLogFolder () {

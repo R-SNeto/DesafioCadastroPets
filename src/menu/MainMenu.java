@@ -23,6 +23,7 @@ public class MainMenu {
     public static PetInputProcessor pis = new PetInputProcessor();
     public static WriteErrorLogs wel = new WriteErrorLogs();
 
+    //Starts the menu with the initial rules
     public void start(Scanner scanner) {
         try {
             fh.readFormFile(questions);
@@ -34,7 +35,7 @@ public class MainMenu {
             System.out.println("\nUNEXPECTED SYSTEM ERROR\n");
         }
     }
-
+    //Main menu
     public void menu(Scanner scanner) {
         boolean activeSystem = true;
 
@@ -96,7 +97,7 @@ public class MainMenu {
             }
         }
     }
-
+    //Register pets menu
     public void registerNewPet(Scanner scanner) {
         boolean activeSystem = true;
 
@@ -117,6 +118,7 @@ public class MainMenu {
                 String weight = "";
                 String race = "";
 
+                //Print the quest list from the forms
                 for (int i = 0; i < questions.getQuestionListSize(); i++) {
                     ask = questions.getQuestion(i).trim().toLowerCase();
                     System.out.println(questions.getQuestion(i));
@@ -181,14 +183,14 @@ public class MainMenu {
             }
         }
     }
-
+    //List pets menu
     public void listAllRegisteredPets(Scanner scanner){
         System.out.println("\n         PET DATA         ");
         System.out.println("------------------------------");
         fh.readPetDataFile();
 
     }
-
+    //List pets by criteria menu
     public void listByCriteria(Scanner scanner){
         System.out.println("\n         PET DATA         ");
         System.out.println("------------------------------");
@@ -251,7 +253,7 @@ public class MainMenu {
             System.out.println("Error: invalid argument");
         }
     }
-
+    //Change pet data menu
     public void changePetData(Scanner scanner) {
         listByCriteria(scanner);
         boolean activeSystem = true;
@@ -261,6 +263,7 @@ public class MainMenu {
                 System.out.print("Select the number of the pet to change data: ");
                 int option = Integer.parseInt(scanner.nextLine());
 
+                //Stores the pet type and gender of the old file
                 int newType = fh.getTypeByFile(option);
                 int newGender = fh.getGenderByFile(option);
 
@@ -287,7 +290,7 @@ public class MainMenu {
                 Pet pet = new Pet(newName, PetType.valueOf(newType),
                         Gender.valueOf(newGender), newAddress, newAge,
                         newWeight, newRace);
-
+                //Confirms the change and write the new pet file
                 if (fh.deletePetData(option, scanner)) {
                     fh.writePetDataFile(pet);
                     System.out.println("\nData modified successfully\n");
@@ -302,7 +305,7 @@ public class MainMenu {
             }
         }
     }
-
+    //Delete pet data menu
     public void deletePetData (Scanner scanner) {
         listByCriteria(scanner);
 
@@ -310,6 +313,7 @@ public class MainMenu {
         System.out.print("Select the number of the pet to delete data: ");
         int option = Integer.parseInt(scanner.nextLine());
 
+        //Confirms the exclusion
         if (fh.deletePetData(option, scanner)) {
             System.out.println("\nPET SUCCESSFULLY REMOVED\n");
         } else {

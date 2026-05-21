@@ -2,6 +2,8 @@ package service;
 
 public class PetService {
 
+    //Class responsible for validations and checks
+
     public boolean validateName(String word){
         if (!word.isBlank()) {
             if (isEspecialCharacter(word) || !hasSurname(word)) {

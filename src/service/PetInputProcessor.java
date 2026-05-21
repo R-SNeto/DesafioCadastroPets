@@ -6,6 +6,8 @@ import static menu.MainMenu.ps;
 
 public class PetInputProcessor {
 
+    //Class responsible for processing all pet data
+
     public static final String NOT_INFORMED = "NOT INFORMED";
 
     public String processAge (String answer) {

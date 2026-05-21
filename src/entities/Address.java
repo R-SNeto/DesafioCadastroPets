@@ -1,6 +1,9 @@
 package entities;
 
 public class Address {
+
+    //Address object
+
     private String state;
     private String city;
     private String neighborhood;

@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Form {
 
+    //Class responsible for store all questions found in the forms.txt
+
     private List<String> questionList = new ArrayList<>();
 
     public void addQuestion(String question){

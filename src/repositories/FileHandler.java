@@ -21,7 +21,7 @@ import java.util.Scanner;
 public class FileHandler {
     private final File petDataFolder = new File("PetData");
     private final File deletedPetDataFolder = new File ("DeletedPetData");
-    private final File file = new File("formulario.txt");
+    private final File file = new File("forms.txt");
 
     private PetInputProcessor pis = new PetInputProcessor();
     private List<String> auxPathList;
@@ -42,15 +42,15 @@ public class FileHandler {
     public void removeAuxFileNameList (String name) {
         auxFileNameList.remove(name);
     }
-
+    //Return a copy of the pathList
     public List<String> getAuxPathList() {
         return new ArrayList<>(auxPathList);
     }
-
+    //Return a copy of the nameList
     public List<String> getAuxFileNameList() {
         return new ArrayList<>(auxFileNameList);
     }
-
+    //Write the main form with the following questions
     public void writeFormFile() {
         if (!file.exists()) {
             String[] questions = {"1 - What's the pet name?",
@@ -76,7 +76,8 @@ public class FileHandler {
             }
         }
     }
-
+    //Read all questions and store them in a list. It will be used to, more later, print the questions
+    //followed by your answers
     public void readFormFile(Form questions) {
         if (!file.exists()) {
             writeFormFile();
@@ -90,15 +91,15 @@ public class FileHandler {
             throw new RuntimeException(e);
         }
     }
-
+    //Create the folder that stores the pet data
     public void createPetDataFolder() {
         petDataFolder.mkdir();
     }
-
+    //Create the folder that stores the excluded pet data
     public void createDeletedPetDataFolder() {
         deletedPetDataFolder.mkdir();
     }
-
+    //Write the data of the pet in a file
     public void writePetDataFile(Pet pet) {
         if (!petDataFolder.exists()) {
             createPetDataFolder();
@@ -130,7 +131,7 @@ public class FileHandler {
             throw new RuntimeException(e);
         }
     }
-
+    //Read and list the pet data file
     public void readPetDataFile() {
         File[] files = petDataFolder.listFiles();
 
@@ -151,7 +152,7 @@ public class FileHandler {
             throw new RuntimeException("File not found");
         }
     }
-
+    //Read and list the pet data using criteria
     public void readPetDataByCriteria(int option, String[] criteria) {
         File[] files = petDataFolder.listFiles();
         auxPathList = new ArrayList<>();
@@ -192,6 +193,7 @@ public class FileHandler {
 
                     if (findContains1 && findContains2 && findContains3) {
                         fileMatch = true;
+                        //Stores the path and the name files in a list
                         if (!auxPathList.contains(f.getAbsolutePath())) {
                             addAuxPathList(f.getAbsolutePath());
                             addAuxFileNameList(f.getName());
@@ -216,16 +218,17 @@ public class FileHandler {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
                 controlVariable++;
             }
         }
         if (controlVariable == 0) throw new PetNotFoundException("Pet not found");
     }
-
+    //Return the pet path of the list element
     public String getPathByList (int option) {
         return getAuxPathList().get(option - 1);
     }
-
+    //Return the pet file name of the list element
     public String getFieldValue(int option, String fieldName) {
         try (BufferedReader br = new BufferedReader(new FileReader(getAuxPathList().get(option - 1)))) {
             String line;
@@ -242,7 +245,7 @@ public class FileHandler {
 
         return null;
     }
-
+    //Return the pet type
     public int getTypeByFile(int option) {
        String type = getFieldValue(option, "type");
 
@@ -251,7 +254,7 @@ public class FileHandler {
 
        return 0;
     }
-
+    //Return the pet gender
     public int getGenderByFile(int option)   {
         String type = getFieldValue(option, "gender");
 
@@ -260,7 +263,7 @@ public class FileHandler {
 
         return 0;
     }
-
+    //Delete a pet from the system
     public boolean deletePetData(int option, Scanner scanner) {
         if (!deletedPetDataFolder.exists()) {
             createDeletedPetDataFolder();
@@ -273,7 +276,7 @@ public class FileHandler {
         if (pis.processConfirmation(scanner)) {
             try {
                 Path source = Path.of(path);
-
+                //Send the deleted file to other folder, where ALL deleted pet data are stored
                 Files.copy(source, destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 Files.delete(source);
 

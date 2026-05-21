@@ -4,6 +4,9 @@ import entities_enum.Gender;
 import entities_enum.PetType;
 
 public class Pet {
+
+    //Pet object
+
     private String name;
     private PetType petType;
     private Gender petGender;

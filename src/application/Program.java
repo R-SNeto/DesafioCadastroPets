@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
+
+        //Starts the program
+
         Scanner scanner = new Scanner(System.in);
         Locale.setDefault(Locale.US);
 

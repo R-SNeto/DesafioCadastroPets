@@ -3,6 +3,9 @@ package utils;
 import java.time.LocalDateTime;
 
 public class ErrorLogs {
+
+    //Error logs object
+
     private String message;
     private String occurrenceClass;
 
