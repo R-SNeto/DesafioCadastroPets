@@ -142,9 +142,6 @@ DesafioCadastroPets/
 │   ├── services/
 │   ├── exceptions/
 │   └── utils/
-│
-├── .gitignore
-└── README.md
 ```
 
 > The structure may change as new features are added.
