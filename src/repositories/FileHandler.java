@@ -3,12 +3,14 @@ package repositories;
 import entities.Form;
 import entities.Pet;
 import entities_enum.PetType;
+import exceptions.PetNotFoundException;
 import service.PetInputProcessor;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -124,7 +126,7 @@ public class FileHandler {
             bw.write(String.valueOf(pet));
             bw.newLine();
 
-        } catch (IOException e) {
+        } catch (IOException | DateTimeException e) {
             throw new RuntimeException(e);
         }
     }
@@ -217,7 +219,7 @@ public class FileHandler {
                 controlVariable++;
             }
         }
-        if (controlVariable == 0) throw new RuntimeException("Pet not found");
+        if (controlVariable == 0) throw new PetNotFoundException("Pet not found");
     }
 
     public String getPathByList (int option) {

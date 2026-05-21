@@ -5,10 +5,15 @@ import entities.Form;
 import entities.Pet;
 import entities_enum.Gender;
 import entities_enum.PetType;
+import exceptions.PetNotFoundException;
 import repositories.FileHandler;
 import service.PetInputProcessor;
 import service.PetService;
+import utils.ErrorLogs;
+import utils.WriteErrorLogs;
 
+import java.time.LocalDateTime;
+import java.util.IllegalFormatException;
 import java.util.Scanner;
 
 public class MainMenu {
@@ -16,12 +21,18 @@ public class MainMenu {
     public static Form questions = new Form();
     public static PetService ps = new PetService();
     public static PetInputProcessor pis = new PetInputProcessor();
-
-    public static final String NOT_INFORMED = "NOT INFORMED";
+    public static WriteErrorLogs wel = new WriteErrorLogs();
 
     public void start(Scanner scanner) {
-        fh.readFormFile(questions);
-        menu(scanner);
+        try {
+            fh.readFormFile(questions);
+            menu(scanner);
+        } catch (RuntimeException e) {
+            ErrorLogs logs = new ErrorLogs(e.getMessage(), e.getClass().getName());
+            wel.writeLogs(logs);
+
+            System.out.println("\nUNEXPECTED SYSTEM ERROR\n");
+        }
     }
 
     public void menu(Scanner scanner) {
@@ -70,6 +81,7 @@ public class MainMenu {
                         break;
                     case 5:
                         System.out.println("Leaving...");
+                        scanner.close();
                         activeSystem = false;
                         break;
                     default:
@@ -77,7 +89,9 @@ public class MainMenu {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("\nError: insert a number\n");
-            } catch (RuntimeException e) {
+            } catch (PetNotFoundException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (IllegalArgumentException e) {
                 System.out.println("\nError: " + e.getMessage() + "\n");
             }
         }
@@ -106,7 +120,6 @@ public class MainMenu {
                 for (int i = 0; i < questions.getQuestionListSize(); i++) {
                     ask = questions.getQuestion(i).trim().toLowerCase();
                     System.out.println(questions.getQuestion(i));
-
                     if (ask.contains("type")) {
                         System.out.println("---------");
                         System.out.println("[1] DOG");
@@ -163,7 +176,7 @@ public class MainMenu {
 
             } catch (NumberFormatException e) {
                 System.out.println("Error: must be a valid number");
-            } catch (RuntimeException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println("Error: " + e.getMessage());
             }
         }
@@ -232,9 +245,10 @@ public class MainMenu {
 
                 activeSystem = false;
             }
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e){
             System.out.println("Error: insert a valid number");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: invalid argument");
         }
     }
 
