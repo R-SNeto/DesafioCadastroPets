@@ -1,4 +1,4 @@
-#EM PORTUGUÊS
+# EM PORTUGUÊS
 ---
 
 #  Desafio Cadastro de Pets
@@ -96,14 +96,13 @@ Este projeto foi desenvolvido com foco em aprendizado e prática dos seguintes c
 * Separação de responsabilidades
 
 ---
-
+# IN ENGLISH
+---
 
 #  Pet Registration Challenge
 
 A Java-based system focused on pet registration and management, applying Object-Oriented Programming concepts, validations, and clean code organization.
 
----
-## IN ENGLISH
 ---
 
 ##  About the Project
