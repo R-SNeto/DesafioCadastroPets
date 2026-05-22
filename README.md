@@ -143,9 +143,6 @@ DesafioCadastroPets/
 │   ├── exceptions/
 │   └── utils/
 ```
-
-> The structure may change as new features are added.
-
 ---
 
 ##  Features
